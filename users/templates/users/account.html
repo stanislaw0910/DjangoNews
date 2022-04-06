@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Page</title>
+</head>
+<body>
+  {% if request.user.is_authenticated %}
+    {{ request.user.username }}<br>
+    {% if request.user.profile.phone_number == 1 %}
+        Phone number: {{request.user.phone_number}}<br>
+    {% endif %}
+    {% if request.user.city == 1 %}
+        City: {{request.user.profile.city}}<br>
+    {% endif %}
+    Verification -
+    {% if request.user.profile.verification == 1 %}
+      Yes
+    {% else %}
+      No
+    {% endif %}<br>
+    Опубликовано {{ request.user.profile.news_count }} новостей
+  {% else %}
+  <h1>You're not authenticated. Please login</h1>
+  <a href="{% url 'login' %}">Login</a>
+  {% endif %}
+
+</body>
+</html>

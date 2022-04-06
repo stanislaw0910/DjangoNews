@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ news.title }}</title>
+</head>
+<body>
+<h1>{{ news.title}}</h1>
+<p>{{ news.description}}
+    <br>{% if news.created == news.updated %}
+            {{ news.created }}
+        {% else%}
+            {{ news.updated }}
+        {% endif %}</p>
+<br>
+<h1>Комментарии:</h1><p>
+    {% for comment in comments %}
+        {% if comment.news_id == news.id %}
+            <br>Имя: {{comment.username}}
+            <br>Комментарий: {{comment.text}}</p>
+        {% endif %}
+    {% endfor %}
+<h1>Оставить комментарий</h1>
+    <form method="post" action="/news/{{news.id}}">
+        {% csrf_token %}
+        <tr>{% if not request.user.is_authenticated%}
+            <th><label>Username:</label></th>
+                <td>{{comment_form.username}}</td>
+            {% endif %}
+        </tr>
+
+        <tr>
+            <th><label>Text:</label></th>
+                <td>{{comment_form.text}}</td>
+        </tr>
+        <button type="submit">Отправить</button>
+    </form>
+<h1><a href="{% url 'news-update' news.id %}">Update</a></h1>
+</body>
+</html>
